@@ -5,7 +5,7 @@ compiler:
 os:
     - linux
 install: 
-    - apt-get install boost-devel
+    - sudo apt-get install boost-devel
 
 script:
     - mkdir ./build
