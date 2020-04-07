@@ -10,6 +10,7 @@ install:
     - cd vcpkg
     - ./bootstrap-vcpkg.sh
     - ./vcpkg install boost-test
+    - cd ../
 
 script:
     - mkdir ./build
