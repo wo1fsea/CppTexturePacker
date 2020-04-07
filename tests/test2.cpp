@@ -11,7 +11,7 @@ struct F2 {
 BOOST_AUTO_TEST_SUITE( test2 )
 
 BOOST_FIXTURE_TEST_CASE( test_case1, F2 ) {
-    BOOST_CHECK( i == 1 );
+    BOOST_CHECK( i == 0 );
     ++i;
 }
 
