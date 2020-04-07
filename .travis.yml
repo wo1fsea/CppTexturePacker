@@ -9,7 +9,7 @@ install:
     - git clone https://github.com/Microsoft/vcpkg.git
     - cd vcpkg
     - ./bootstrap-vcpkg.sh
-    - vcpkg install boost
+    - ./vcpkg install boost
 
 script:
     - mkdir ./build
