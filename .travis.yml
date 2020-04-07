@@ -5,13 +5,10 @@ compiler:
 os:
     - linux
 install: 
-    - git clone https://github.com/Microsoft/vcpkg.git
-    - cd vcpkg
-    - ./bootstrap-vcpkg.sh
-    - vcpkg install boost
+    - yum install boost-devel
 
 script:
     - mkdir ./build
     - cd ./build 
-    - cmake -DCMAKE_TOOLCHAIN_FILE="../../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
+    - cmake ../
     - make
