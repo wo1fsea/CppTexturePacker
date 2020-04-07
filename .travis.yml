@@ -4,9 +4,13 @@ compiler:
     - clang
 os:
     - linux
-install: sudo apt-get install libboost-dev
+install: 
+    - git clone https://github.com/Microsoft/vcpkg.git
+    - cd vcpkg
+    - vcpkg install boost
+
 script:
     - mkdir ./build
-    - cd ./build
-    - cmake ../
+    - cd ./build 
+    - cmake -DCMAKE_TOOLCHAIN_FILE="../../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
     - make
