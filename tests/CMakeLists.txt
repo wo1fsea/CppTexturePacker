@@ -27,6 +27,4 @@ set_target_properties(
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_UNIT_TESTS_NAME}
     )
 
-
-enable_testing()
-add_test(test ${PROJECT_UNIT_TESTS_NAME})
+add_test(NAME test COMMAND ${PROJECT_UNIT_TESTS_NAME})

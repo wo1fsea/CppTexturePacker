@@ -16,5 +16,5 @@ script:
     - mkdir ./build
     - cd ./build 
     - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
-    - make
-    - make test
+    - cmake --build ./
+    - ctest
