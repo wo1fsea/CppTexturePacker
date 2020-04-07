@@ -1,14 +1,18 @@
 language: cpp
 sudo: required
+dist: bionic
 compiler:
     - clang
 os:
     - linux
 install: 
-    - sudo apt-get install libboost1.72-all-dev
+    - git clone https://github.com/Microsoft/vcpkg.git
+    - cd vcpkg
+    - ./bootstrap-vcpkg.sh
+    - vcpkg install boost
 
 script:
     - mkdir ./build
     - cd ./build 
-    - cmake ../
+    - cmake -DCMAKE_TOOLCHAIN_FILE="../../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
     - make
