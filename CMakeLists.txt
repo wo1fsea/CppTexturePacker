@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(cpptexturepacker)
 
-find_package(Boost REQUIRED COMPONENTS unit_test_framework)
-
 set(CMAKE_CXX_STANDARD 17)
 
 if (APPLE)
