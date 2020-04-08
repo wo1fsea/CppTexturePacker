@@ -34,6 +34,7 @@ set_target_properties(
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
     )
 
+
 # Unit tests
 enable_testing()
 add_subdirectory(tests)
