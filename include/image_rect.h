@@ -30,7 +30,7 @@ public:
 
     bool is_rotated()
     {
-        return is_rotated;
+        return rotated;
     }
 };
 

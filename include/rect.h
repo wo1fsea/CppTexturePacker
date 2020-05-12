@@ -100,7 +100,7 @@ struct Rect
     {
 
         return x >= rect.x + rect.width ||
-               y >= rect.t + rect.height ||
+               y >= rect.y + rect.height ||
                x + width <= rect.x ||
                y + height <= rect.y;
     }
@@ -121,9 +121,9 @@ struct Rect
                height == rect.height;
     }
 
-    vector<Rect<T>> cut(Rect<T> rect)
+    std::vector<Rect<T>> cut(Rect<T> rect)
     {
-        vector<Rect<T>> rects;
+        std::vector<Rect<T>> rects;
         if (contains(rect))
         {
             Rect<T> tmp_rect;

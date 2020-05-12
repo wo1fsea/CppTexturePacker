@@ -4,17 +4,15 @@
 
 #include <string>
 
-#include "utils.h"
 #include "image_rect.h"
-
 
 namespace CppTexturePacker
 {
-
-class ImageInfo 
+using Image = cimg_library::CImg<unsigned char>;
+class ImageInfo
 {
 public:
-    Image image ;
+    Image image;
     std::string image_path;
 
     Rect<int> source_rect;
@@ -42,10 +40,9 @@ public:
     ImageRect get_image_rect()
     {
         ImageRect image_rect;
-        
+
         return image_rect;
     }
-
 };
 
 }; // namespace CppTexturePacker
