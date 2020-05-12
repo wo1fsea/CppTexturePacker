@@ -12,6 +12,7 @@ class ImageRect:  public Rect<int>
 private:
     bool rotated;
 
+public:
     int ex_key;
 
 public:

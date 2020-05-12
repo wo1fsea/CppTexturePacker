@@ -2,6 +2,8 @@
 #ifndef _CPP_TEXTURE_PACKER_RECT_
 #define _CPP_TEXTURE_PACKER_RECT_
 
+#include <vector>
+
 namespace CppTexturePacker
 {
 
@@ -92,6 +94,83 @@ struct Rect
         T tmp = width;
         height = width;
         width = tmp;
+    }
+
+    bool is_overlaped(Rect<T> rect)
+    {
+
+        return x >= rect.x + rect.width ||
+               y >= rect.t + rect.height ||
+               x + width <= rect.x ||
+               y + height <= rect.y;
+    }
+
+    bool contains(Rect<T> rect)
+    {
+        return x <= rect.x &&
+               y <= rect.y &&
+               x + width >= rect.x + rect.width &&
+               y + height >= rect.y + rect.height;
+    }
+
+    bool same(Rect<T> rect)
+    {
+        return x == rect.x &&
+               y == rect.y &&
+               width == rect.width &&
+               height == rect.height;
+    }
+
+    vector<Rect<T>> cut(Rect<T> rect)
+    {
+        vector<Rect<T>> rects;
+        if (contains(rect))
+        {
+            Rect<T> tmp_rect;
+
+            if (get_left() < rect.get_left())
+            {
+                tmp_rect = *this;
+                tmp_rect.enlarge_right_to(rect.get_left());
+                if (tmp_rect.get_area() > 0)
+                {
+                    rects.emplace_back(tmp_rect);
+                }
+            }
+            if (get_top() < rect.get_top())
+            {
+                tmp_rect = *this;
+                tmp_rect.enlarge_bottom_to(rect.get_top());
+                if (tmp_rect.get_area() > 0)
+                {
+                    rects.emplace_back(tmp_rect);
+                }
+            }
+            if (get_right() < rect.get_right())
+            {
+                tmp_rect = *this;
+                tmp_rect.enlarge_left_to(rect.get_right());
+                if (tmp_rect.get_area() > 0)
+                {
+                    rects.emplace_back(tmp_rect);
+                }
+            }
+            if (get_bottom() < rect.get_bottom())
+            {
+                tmp_rect = *this;
+                tmp_rect.enlarge_top_to(rect.get_bottom());
+                if (tmp_rect.get_area() > 0)
+                {
+                    rects.emplace_back(tmp_rect);
+                }
+            }
+        }
+        else
+        {
+            rects.emplace_back(*this);
+        }
+
+        return rects;
     }
 };
 

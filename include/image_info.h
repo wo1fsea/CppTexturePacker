@@ -2,7 +2,11 @@
 #ifndef _CPP_TEXTURE_PACKER_IMAGE_INFO_
 #define _CPP_TEXTURE_PACKER_IMAGE_INFO_
 
+#include <string>
+
+#include "utils.h"
 #include "image_rect.h"
+
 
 namespace CppTexturePacker
 {
@@ -10,6 +14,9 @@ namespace CppTexturePacker
 class ImageInfo 
 {
 public:
+    Image image ;
+    std::string image_path;
+
     Rect<int> source_rect;
     Rect<int> source_bbox;
 
@@ -35,6 +42,7 @@ public:
     ImageRect get_image_rect()
     {
         ImageRect image_rect;
+        
         return image_rect;
     }
 
