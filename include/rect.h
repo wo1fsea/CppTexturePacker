@@ -99,10 +99,12 @@ struct Rect
     bool is_overlaped(Rect<T> rect)
     {
 
-        return x >= rect.x + rect.width ||
+        return !(
+               x >= rect.x + rect.width ||
                y >= rect.y + rect.height ||
                x + width <= rect.x ||
-               y + height <= rect.y;
+               y + height <= rect.y
+            );
     }
 
     bool contains(Rect<T> rect)
@@ -146,7 +148,7 @@ struct Rect
                     rects.emplace_back(tmp_rect);
                 }
             }
-            if (get_right() < rect.get_right())
+            if (get_right() > rect.get_right())
             {
                 tmp_rect = *this;
                 tmp_rect.enlarge_left_to(rect.get_right());
@@ -155,7 +157,7 @@ struct Rect
                     rects.emplace_back(tmp_rect);
                 }
             }
-            if (get_bottom() < rect.get_bottom())
+            if (get_bottom() > rect.get_bottom())
             {
                 tmp_rect = *this;
                 tmp_rect.enlarge_top_to(rect.get_bottom());
