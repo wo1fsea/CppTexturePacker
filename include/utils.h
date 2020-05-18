@@ -280,6 +280,11 @@ Rect<int> get_bounding_box(Image image)
 	return Rect<int>{ l, t, r - l, b - t };
 }
 
+void trim_image(Image &image, const Rect<int>& rect)
+{
+	image.crop(rect.get_left(), rect.get_top(), rect.get_right(), rect.get_bottom(), 0);
+}
+
 void dump_altalas_to_plist()
 {
 }

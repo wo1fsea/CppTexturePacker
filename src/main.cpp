@@ -5,10 +5,10 @@ int main(int argc, char* argv[])
 {
     std::string path = "C:/GITHUB/CppTexturePacker/data/";
     std::string save_path = "C:/GITHUB/CppTexturePacker/p2.png";
-
+    std::string save_path2 = "C:/GITHUB/CppTexturePacker/p3.png";
     auto image_infos = CppTexturePacker::load_image_infos_from_dir(path);
 
-    auto packer = CppTexturePacker::Packer();
+    auto packer = CppTexturePacker::RectPacker();
     std::vector<CppTexturePacker::ImageRect> image_rects;
     for(auto image_info: image_infos)
     {
@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
 
     CppTexturePacker::save_image_to_file(save_path, image);
 
-
+    CppTexturePacker::trim_image(image, CppTexturePacker::get_bounding_box(image));
+    CppTexturePacker::save_image_to_file(save_path2, image);
     return 0;
 }

@@ -7,6 +7,6 @@
 #include "image_rect.h"
 #include "image_info.h"
 #include "atlas.h"
-#include "packer.h"
+#include "rect_packer.h"
 
 #endif

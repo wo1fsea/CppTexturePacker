@@ -5,6 +5,7 @@
 #include <string>
 
 #include "image_rect.h"
+#include "utils.h"
 
 static int _current_ex_key = 0;
 
@@ -12,6 +13,7 @@ namespace CppTexturePacker
 {
 using Image = cimg_library::CImg<unsigned char>;
 Rect<int> get_bounding_box(Image image);
+void trim_image(Image& image, const Rect<int>& rect);
 
 class ImageInfo
 {
@@ -64,6 +66,7 @@ public:
     {
         trimmed = true;
         source_bbox = get_bounding_box(image);
+        trim_image(image, source_bbox);
     }
 
     bool is_trimmed() const

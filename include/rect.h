@@ -22,7 +22,7 @@ struct Rect
 
     T x, y, width, height;
 
-    T get_left()
+    T get_left() const
     {
         return x;
     }
@@ -32,7 +32,7 @@ struct Rect
         x = l;
     }
 
-    T get_right()
+    T get_right() const
     {
         return x + width;
     }
@@ -42,7 +42,7 @@ struct Rect
         x = r - width;
     }
 
-    T get_top()
+    T get_top() const
     {
         return y;
     }
@@ -52,7 +52,7 @@ struct Rect
         y = t;
     }
 
-    T get_bottom()
+    T get_bottom() const
     {
         return y + height;
     }
@@ -84,7 +84,7 @@ struct Rect
         height = b - get_top();
     }
 
-    T get_area()
+    T get_area() const
     {
         return width * height;
     }
@@ -96,7 +96,7 @@ struct Rect
         width = tmp;
     }
 
-    bool is_overlaped(Rect<T> rect)
+    bool is_overlaped(Rect<T> rect) const
     {
 
         return !(
@@ -107,7 +107,7 @@ struct Rect
             );
     }
 
-    bool contains(Rect<T> rect)
+    bool contains(Rect<T> rect) const
     {
         return x <= rect.x &&
                y <= rect.y &&
@@ -115,7 +115,7 @@ struct Rect
                y + height >= rect.y + rect.height;
     }
 
-    bool same(Rect<T> rect)
+    bool same(Rect<T> rect) const
     {
         return x == rect.x &&
                y == rect.y &&
@@ -123,7 +123,7 @@ struct Rect
                height == rect.height;
     }
 
-    std::vector<Rect<T>> cut(Rect<T> rect)
+    std::vector<Rect<T>> cut(Rect<T> rect) const
     {
         std::vector<Rect<T>> rects;
         if (contains(rect))

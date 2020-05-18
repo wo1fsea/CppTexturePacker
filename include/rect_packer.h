@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CPP_TEXTURE_PACKER_PACKER_
-#define _CPP_TEXTURE_PACKER_PACKER_
+#ifndef _CPP_TEXTURE_PACKER_RECT_PACKER_
+#define _CPP_TEXTURE_PACKER_RECT_PACKER_
 
 #include <vector>
 #include <tuple>
@@ -11,10 +11,9 @@
 namespace CppTexturePacker
 {
 
-    class Packer
+    class RectPacker
     {
     private:
-        unsigned int bg_color;
 
         unsigned int max_width;
         unsigned int max_height;
@@ -26,38 +25,39 @@ namespace CppTexturePacker
         unsigned int shape_padding;
         unsigned int inner_padding;
 
-        unsigned char trim_mode;
-        bool reduce_border_artifacts;
-        bool extrude;
+        // unsigned char trim_mode;
+        // bool reduce_border_artifacts;
+        // bool extrude;
+        // unsigned int bg_color;
 
     public:
         std::vector<Atlas> atlases;
 
     public:
-        Packer(
-            //unsigned int _bg_color=0x00000000,
+        RectPacker(
             unsigned int _max_width=4096,
             unsigned int _max_height=4096,
             bool _enable_rotated=false,
             bool _force_square=false,
             unsigned int _border_padding=0,
             unsigned int _shape_padding=0,
-            unsigned int _inner_padding=0,
-            unsigned char _trim_mode=0
+            unsigned int _inner_padding=0
+            // unsigned char _trim_mode=0
             //bool _reduce_border_arifacts=false,
             //bool _extrude=false
+            //unsigned int _bg_color=0x00000000,
             ):
-            //bg_color(_bg_color),
             max_width(_max_width),
             max_height(_max_height), 
             enable_rotated(_enable_rotated),
             force_square(_force_square),
             border_padding(_border_padding),
             shape_padding(_shape_padding),
-            inner_padding(_inner_padding),
-            trim_mode(_trim_mode)
+            inner_padding(_inner_padding)
+            // trim_mode(_trim_mode)
             //reduce_border_artifacts(_reduce_border_arifacts),
             //extrude(_extrude)
+            //bg_color(_bg_color),
         {
             atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding, inner_padding));
         }
@@ -113,7 +113,7 @@ namespace CppTexturePacker
                 {
                     atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding, inner_padding));
 
-                    best_atlas_index = atlases.size()-1;
+                    best_atlas_index = (unsigned int) atlases.size()-1;
                     std::tie(best_rank, best_free_rect_index, best_rotated) = atlases[best_atlas_index].find_best_rank(image_rect, enable_rotated);
 
                     while(MAX_RANK == best_rank)
