@@ -7,6 +7,7 @@ find_package(Boost REQUIRED)
 find_package(CIMG REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(PNG REQUIRED)
+find_package(PUGIXML REQUIRED)
 
 if (APPLE)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
@@ -14,9 +15,10 @@ endif()
 
 include_directories(include/
                    ${Boost_INCLUDE_DIRS}
+                   ${CIMG_INCLUDE_DIR}
                    ${JPEG_INCLUDE_DIR}
                    ${PNG_INCLUDE_DIR}
-                   ${CIMG_INCLUDE_DIR}
+                   ${PUGIXML_INCLUDE_DIR}
                    )
 
 file(GLOB PROJECT_HEADERS include/*.hpp
@@ -38,7 +40,7 @@ source_group("src" FILES ${PROJECT_SOURCES})
 
 
 add_executable(${PROJECT_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
-target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES} ${PNG_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES} ${PNG_LIBRARIES} ${PUGIXML_LIBRARIES})
 
 set_target_properties(
     ${PROJECT_NAME} 

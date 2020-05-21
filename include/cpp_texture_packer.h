@@ -8,5 +8,6 @@
 #include "image_info.h"
 #include "atlas.h"
 #include "rect_packer.h"
+#include "texture_packer.h"
 
 #endif

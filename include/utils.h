@@ -47,12 +47,12 @@ Image convert_to_rgba_image(const Image& src)
 	return src;
 }
 
-Image read_image_from_file(std::string file_path)
+Image read_image_from_file(const std::string& file_path)
 {
 	return convert_to_rgba_image(Image(file_path.c_str()));
 }
 
-void save_image_to_file(std::string file_path, const Image& image)
+void save_image_to_file(const std::string & file_path, const Image& image)
 {
 	if (file_path.size() < 4)
 	{
@@ -74,14 +74,14 @@ void save_image_to_file(std::string file_path, const Image& image)
 	}
 }
 
-ImageInfo read_image_info_from_file(std::string file_path)
+ImageInfo read_image_info_from_file(const std::string& file_path)
 {
 	fs::path fp = file_path;
 	auto abs_fp = fs::absolute(fp);
 	return ImageInfo(read_image_from_file(abs_fp.string()), abs_fp.string());
 }
 
-std::vector<ImageInfo> load_image_infos_from_paths(std::vector<std::string> file_paths)
+std::vector<ImageInfo> load_image_infos_from_paths(const std::vector<std::string> & file_paths)
 {
 	std::vector<ImageInfo> image_infos;
 
@@ -93,7 +93,7 @@ std::vector<ImageInfo> load_image_infos_from_paths(std::vector<std::string> file
 	return image_infos;
 }
 
-std::vector<ImageInfo> load_image_infos_from_dir(std::string dir_path)
+std::vector<ImageInfo> load_image_infos_from_dir(const std::string & dir_path)
 {
 	std::vector<std::string> file_paths;
 
@@ -113,7 +113,7 @@ std::vector<ImageInfo> load_image_infos_from_dir(std::string dir_path)
 	return load_image_infos_from_paths(file_paths);
 }
 
-bool _is_border_pixel(Image& image, int x, int y)
+bool _is_border_pixel(const Image& image, int x, int y)
 {
 	int width = image.width();
 	int height = image.height();
@@ -240,7 +240,7 @@ void clean_pixel_alpha_below(Image& image, unsigned char alpha)
 	}
 }
 
-Rect<int> get_bounding_box(Image image)
+Rect<int> get_bounding_box(const Image & image)
 {
 	int width = image.width(),
 		height = image.height();
@@ -308,7 +308,7 @@ void draw_image_in_image(Image& main_image, const Image& sub_image, int start_x,
 	}
 }
 
-Image dump_altalas_to_image(Atlas atlas, ImageInfoMap image_info_map)
+Image dump_altalas_to_image(const Atlas & atlas, ImageInfoMap & image_info_map)
 {
 	Image image(atlas.get_width(), atlas.get_height(), 1, 4, 0);
 	for (auto image_rect : atlas.get_placed_image_rect())
@@ -319,7 +319,7 @@ Image dump_altalas_to_image(Atlas atlas, ImageInfoMap image_info_map)
 	return image;
 }
 
-ImageInfoMap make_image_info_map(std::vector<ImageInfo> image_infos)
+ImageInfoMap make_image_info_map(const std::vector<ImageInfo> & image_infos)
 {
 	ImageInfoMap image_info_map;
 	for (const ImageInfo & image_info : image_infos) {

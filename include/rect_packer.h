@@ -25,11 +25,6 @@ namespace CppTexturePacker
         unsigned int shape_padding;
         unsigned int inner_padding;
 
-        // unsigned char trim_mode;
-        // bool reduce_border_artifacts;
-        // bool extrude;
-        // unsigned int bg_color;
-
     public:
         std::vector<Atlas> atlases;
 
@@ -42,10 +37,6 @@ namespace CppTexturePacker
             unsigned int _border_padding=0,
             unsigned int _shape_padding=0,
             unsigned int _inner_padding=0
-            // unsigned char _trim_mode=0
-            //bool _reduce_border_arifacts=false,
-            //bool _extrude=false
-            //unsigned int _bg_color=0x00000000,
             ):
             max_width(_max_width),
             max_height(_max_height), 
@@ -54,10 +45,6 @@ namespace CppTexturePacker
             border_padding(_border_padding),
             shape_padding(_shape_padding),
             inner_padding(_inner_padding)
-            // trim_mode(_trim_mode)
-            //reduce_border_artifacts(_reduce_border_arifacts),
-            //extrude(_extrude)
-            //bg_color(_bg_color),
         {
             atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding, inner_padding));
         }

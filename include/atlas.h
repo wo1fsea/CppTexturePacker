@@ -115,14 +115,17 @@ namespace CppTexturePacker
                  height - 2 * border_padding}));
         }
 
-        const std::vector<ImageRect> &get_placed_image_rect() { return image_rects; }
+        const std::vector<ImageRect> &get_placed_image_rect() const 
+        {
+            return image_rects; 
+        }
 
-        int get_width()
+        int get_width() const
         {
             return width;
         }
 
-        int get_height()
+        int get_height() const
         {
             return height;
         }
@@ -259,7 +262,7 @@ namespace CppTexturePacker
             image_rects.emplace_back(image_rect);
         }
 
-        unsigned int rank(Rect<int> free_rect, ImageRect image_rect, RankStrategy rank_stratege=RankStrategy::RankBAF)
+        unsigned int rank(Rect<int> free_rect, ImageRect image_rect, RankStrategy rank_stratege=RankStrategy::RankBAF) const
         {
             unsigned int r = MAX_RANK;
             switch (rank_stratege)
@@ -285,7 +288,7 @@ namespace CppTexturePacker
             return r;
         }
 
-        std::tuple<unsigned int, unsigned int, bool> find_best_rank_without_rotate(ImageRect image_rect)
+        std::tuple<unsigned int, unsigned int, bool> find_best_rank_without_rotate(ImageRect image_rect) const
         {
             unsigned int best_rank = MAX_RANK;
             unsigned int best_free_rect_index = -1;
@@ -303,7 +306,7 @@ namespace CppTexturePacker
             return std::make_tuple(best_rank, best_free_rect_index, false);
         }
 
-        std::tuple<unsigned int, unsigned int, bool> find_best_rank_with_rotate(ImageRect image_rect)
+        std::tuple<unsigned int, unsigned int, bool> find_best_rank_with_rotate(ImageRect image_rect) const
         {
             unsigned int best_rank, best_rank_r;
             unsigned int best_free_rect_index, best_free_rect_index_r;
@@ -325,7 +328,7 @@ namespace CppTexturePacker
             }
         }
 
-        std::tuple<unsigned int, unsigned int, bool> find_best_rank(ImageRect image_rect, bool enable_rotate)
+        std::tuple<unsigned int, unsigned int, bool> find_best_rank(ImageRect image_rect, bool enable_rotate) const
         {
             if(enable_rotate)
             {

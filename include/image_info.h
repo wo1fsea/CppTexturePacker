@@ -12,7 +12,9 @@ static int _current_ex_key = 0;
 namespace CppTexturePacker
 {
 using Image = cimg_library::CImg<unsigned char>;
-Rect<int> get_bounding_box(Image image);
+
+void clean_pixel_alpha_below(Image& image, unsigned char alpha);
+Rect<int> get_bounding_box(const Image& image);
 void trim_image(Image& image, const Rect<int>& rect);
 
 class ImageInfo
@@ -62,9 +64,10 @@ public:
     {
     }
 
-    void trim()
+    void trim(unsigned char alpha_threshold)
     {
         trimmed = true;
+        clean_pixel_alpha_below(image, alpha_threshold);
         source_bbox = get_bounding_box(image);
         trim_image(image, source_bbox);
     }
