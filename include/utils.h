@@ -13,6 +13,8 @@
 #define cimg_use_png
 #include <CImg.h>
 
+#include <plist/plist.h>
+
 #include "image_info.h"
 #include "atlas.h"
 
