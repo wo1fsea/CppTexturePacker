@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 */
-#include "plist/plist++.h"
+#include "plist/plist.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,13 +42,12 @@ int main(int argc, char *argv[])
 {
     char *plist_xml = NULL;
     uint32_t size_out = 0;
-    char *file_out = "C:/GITHUB/CppTexturePacker/a.plist";
+    char *file_out = "e:/Projects/a.plist";
 
-    PList::Dictionary dd;
-    PList::String s("aaa");
-    dd.Set("a", s);
+    auto plist_root = plist_new_dict();
+    plist_dict_set_item(plist_root, "a", plist_new_string("av"));
 
-    plist_to_xml(dd.GetPlist(), &plist_xml, &size_out);
+    plist_to_xml(plist_root, &plist_xml, &size_out);
     if (!plist_xml)
     {
         printf("PList XML writing failed\n");
@@ -66,6 +65,7 @@ int main(int argc, char *argv[])
     }
 
     free(plist_xml);
+    plist_free(plist_root);
 
     //success
     return 0;
