@@ -32,7 +32,14 @@
 
 namespace CppTexturePacker
 {
+#if BOOST_OS_WINDOWS
 namespace fs = std::filesystem;
+#elif BOOST_OS_LINUX
+namespace fs = std::experimental::filesystem
+#elif BOOST_OS_MACOS
+namespace fs = std::experimental::filesystem
+#endif
+
 using Image = cimg_library::CImg<unsigned char>;
 using ImageInfoMap = std::unordered_map<int, ImageInfo>;
 
@@ -57,7 +64,7 @@ Image convert_to_rgba_image(const Image& src)
 		return dst;
 	}
 
-	assert(("unknown image channels", src.spectrum() == 4));
+	assert(src.spectrum() == 4); //unknown image channels 
 	return src;
 }
 

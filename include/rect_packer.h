@@ -107,7 +107,7 @@ namespace CppTexturePacker
                     {
                         if(!atlases[best_atlas_index].try_expand())
                         {
-                            assert(("can not place image in max size", false));
+                            assert(false); //can not place image in max size 
                         }
                         
                         std::tie(best_rank, best_free_rect_index, best_rotated) = atlases[best_atlas_index].find_best_rank(image_rect, enable_rotated);
