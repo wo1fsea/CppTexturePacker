@@ -10,6 +10,11 @@ install:
     - cd vcpkg
     - ./bootstrap-vcpkg.sh
     - ./vcpkg install boost-test
+    - ./vcpkg install boost-format
+    - ./vcpkg install cimg
+    - ./vcpkg install libpng 
+    - ./vcpkg install libplist
+    - ./vcpkg install libjpeg-turbo
     - cd ../
 
 script:
