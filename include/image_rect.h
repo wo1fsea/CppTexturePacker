@@ -28,7 +28,7 @@ public:
         Rect::rotate();
     }
 
-    bool is_rotated()
+    bool is_rotated() const
     {
         return rotated;
     }

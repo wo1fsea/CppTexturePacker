@@ -98,6 +98,20 @@ public:
         return ex_key;
     }
 
+    Rect<int> get_source_rect() const
+    {
+        return source_rect;
+    }
+
+    Rect<int> get_source_bbox() const
+    {
+        return source_bbox;
+    }
+
+    std::string get_image_path() const
+    {
+        return image_path;
+    }
 };
 
 }; // namespace CppTexturePacker

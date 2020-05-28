@@ -5,9 +5,13 @@
 #include <vector>
 #include <tuple>
 #include <string>
+#include <fstream> 
 #include <unordered_map>
 #include <filesystem>
 #include <cassert>
+#include <algorithm>
+
+#include <boost/format.hpp>
 
 #define cimg_use_jpeg
 #define cimg_use_png
@@ -89,7 +93,7 @@ std::vector<ImageInfo> load_image_infos_from_paths(const std::vector<std::string
 
 	for (auto file_path : file_paths)
 	{
-		image_infos.emplace_back(read_image_from_file(file_path));
+		image_infos.emplace_back(ImageInfo(read_image_from_file(file_path), file_path));
 	}
 
 	return image_infos;
@@ -287,8 +291,93 @@ void trim_image(Image &image, const Rect<int>& rect)
 	image.crop(rect.get_left(), rect.get_top(), rect.get_right(), rect.get_bottom(), 0);
 }
 
-void dump_altalas_to_plist()
+void dump_altalas_to_plist(
+	const std::string& file_path, 
+	const Atlas& atlas, 
+	ImageInfoMap& image_info_map, 
+	const std::string& texture_file_name,
+	const std::string& base_image_path,
+	bool use_backslash = false
+	)
 {
+	char *plist_xml = NULL;
+    uint32_t size_out = 0;
+
+    auto plist_root = plist_new_dict();
+	auto frames_dict = plist_new_dict();
+	auto metadata_dict = plist_new_dict();
+
+    plist_dict_set_item(plist_root, "frames", frames_dict);
+    plist_dict_set_item(plist_root, "metadata", metadata_dict);
+
+	plist_dict_set_item(metadata_dict, "format", plist_new_uint(2)); 
+	plist_dict_set_item(metadata_dict, "textureFileName", plist_new_string(texture_file_name.c_str())); 
+	plist_dict_set_item(metadata_dict, "realTextureFileName", plist_new_string(texture_file_name.c_str())); 
+	plist_dict_set_item(metadata_dict, "size", plist_new_string((boost::format("{%d,%d}") % atlas.get_width() % atlas.get_height()).str().c_str())); 
+
+	for(const ImageRect& image_rect: atlas.get_placed_image_rect())
+	{
+		auto image_info = image_info_map[image_rect.ex_key];
+
+		auto source_bbox = image_info.get_source_bbox();
+		auto source_rect = image_info.get_source_rect();
+
+		int width = image_rect.width, height = image_rect.height;
+		if(image_rect.is_rotated())
+		{
+			width = image_rect.height;
+			height = image_rect.width;
+		}
+
+		int center_offset_x = 0, center_offset_y = 0;
+		if(image_info.is_trimmed())
+		{
+
+			center_offset_x = int(source_bbox.x + source_bbox.width / 2. - source_rect.width / 2.);
+            center_offset_y = - int(source_bbox.y + source_bbox.height / 2. - source_rect.height / 2.);
+		}
+
+		fs::path image_path = image_info.get_image_path();
+		if(base_image_path != "")
+		{
+			fs::path base_path = base_image_path;
+			image_path = fs::relative(image_path, base_path);
+		}
+		
+    	auto frame_data = plist_new_dict();
+		plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") %image_rect.x % image_rect.y% width %height).str().c_str())); 
+		plist_dict_set_item(frame_data, "offset", plist_new_string((boost::format("{%d,%d}") % center_offset_x % center_offset_y).str().c_str())); 
+		plist_dict_set_item(frame_data, "rotated", plist_new_bool(image_info.is_trimmed())); 
+		plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") %source_bbox.x % source_bbox.y% source_bbox.width %source_bbox.height).str().c_str())); 
+		plist_dict_set_item(frame_data, "sourceSize",  plist_new_string((boost::format("{%d,%d}") % source_rect.width % source_rect.height).str().c_str())); 
+
+		auto image_path_string = image_path.string();
+		if (use_backslash)
+		{
+			std::replace(image_path_string.begin(), image_path_string.end(), '/', '\\');
+		}
+		else
+		{
+			std::replace(image_path_string.begin(), image_path_string.end(), '\\', '/');
+		}
+
+		plist_dict_set_item(frames_dict, image_path_string.c_str(), frame_data); 
+	}
+
+    plist_to_xml(plist_root, &plist_xml, &size_out);
+    plist_free(plist_root);
+
+	if(size_out)
+	{
+		fs::path fp = file_path;
+		auto abs_fp = fs::absolute(fp);
+		std::fstream fs;
+		fs.open (abs_fp.string(), std::fstream::out);
+		fs << plist_xml;
+		fs.close();
+	}
+    
+	free(plist_xml);
 }
 
 void draw_image_in_image(Image& main_image, const Image& sub_image, int start_x, int start_y) 
