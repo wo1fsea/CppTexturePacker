@@ -35,9 +35,9 @@ namespace CppTexturePacker
 #if BOOST_OS_WINDOWS
 namespace fs = std::filesystem;
 #elif BOOST_OS_LINUX
-namespace fs = std::experimental::filesystem
+namespace fs = std::experimental::filesystem;
 #elif BOOST_OS_MACOS
-namespace fs = std::experimental::filesystem
+namespace fs = std::experimental::filesystem;
 #endif
 
 using Image = cimg_library::CImg<unsigned char>;

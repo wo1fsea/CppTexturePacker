@@ -53,7 +53,7 @@ namespace CppTexturePacker
     private:
         bool is_in_max_size(int new_width, int new_height)
         {
-            return new_width <= max_width && new_height <= new_height;
+            return new_width <= max_width && new_height <= max_height;
         }
 
         void prune_free_rects()
