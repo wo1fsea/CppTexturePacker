@@ -4,22 +4,18 @@ project(cpptexturepacker)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(Boost REQUIRED)
-find_package(CIMG REQUIRED)
+find_package(CImg CONFIG REQUIRED)
 find_package(JPEG REQUIRED)
-find_package(PNG REQUIRED)
-find_package(PUGIXML REQUIRED)
+find_package(libpng CONFIG REQUIRED)
 
-find_path(PLIST_INCLUDE_DIR plist/plist++.h)
+find_path(PLIST_INCLUDE_DIR plist/plist.h)
 
-set(plist_names ${PLIST_NAMES} plist++ plist++-static libplist++ libplist++-static)
+set(plist_names ${PLIST_NAMES} plist plist-static libplist libplist-static)
 
 if(NOT PLIST_LIBRARY)
   find_library(PLIST_LIBRARY NAMES ${plist_names})
 endif()
 unset(plist_names)
-
-message(${PNG_LIBRARIES})
-message(${PLIST_LIBRARY})
 
 if (APPLE)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
@@ -53,7 +49,7 @@ source_group("src" FILES ${PROJECT_SOURCES})
 
 
 add_executable(${PROJECT_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
-target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES} ${PNG_LIBRARIES} ${PUGIXML_LIBRARIES} ${PLIST_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES} ${PNG_LIBRARIES} ${PLIST_LIBRARY})
 
 set_target_properties(
     ${PROJECT_NAME} 
