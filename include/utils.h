@@ -7,11 +7,19 @@
 #include <string>
 #include <fstream> 
 #include <unordered_map>
-#include <filesystem>
 #include <cassert>
 #include <algorithm>
 
 #include <boost/format.hpp>
+#include <boost/predef.h>
+
+#if BOOST_OS_WINDOWS
+#include <filesystem>
+#elif BOOST_OS_LINUX
+#include <experimental/filesystem> 
+#elif BOOST_OS_MACOS
+#include <experimental/filesystem> 
+#endif
 
 #define cimg_use_jpeg
 #define cimg_use_png
