@@ -11,7 +11,7 @@ install:
     - ./bootstrap-vcpkg.sh
     - ./vcpkg install boost-test
     - ./vcpkg install boost-format
-    - ./vcpkg install boost-predef
+    - ./vcpkg install boost-filesystem
     - ./vcpkg install cimg
     - ./vcpkg install libpng 
     - ./vcpkg install libplist

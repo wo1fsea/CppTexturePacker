@@ -11,16 +11,9 @@
 #include <algorithm>
 
 #include <boost/format.hpp>
-#include <boost/predef.h>
+#include <boost/filesystem.hpp>
 
-#if BOOST_OS_WINDOWS
-#include <filesystem>
-#elif BOOST_OS_LINUX
-#include <experimental/filesystem> 
-#elif BOOST_OS_MACOS
-#include <experimental/filesystem> 
-#endif
-
+#define cimg_display 0
 #define cimg_use_jpeg
 #define cimg_use_png
 #include <CImg.h>
@@ -32,13 +25,7 @@
 
 namespace CppTexturePacker
 {
-#if BOOST_OS_WINDOWS
-namespace fs = std::filesystem;
-#elif BOOST_OS_LINUX
-namespace fs = std::experimental::filesystem;
-#elif BOOST_OS_MACOS
-namespace fs = std::experimental::filesystem;
-#endif
+namespace fs = boost::filesystem;
 
 using Image = cimg_library::CImg<unsigned char>;
 using ImageInfoMap = std::unordered_map<int, ImageInfo>;
