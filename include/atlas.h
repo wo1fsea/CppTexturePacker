@@ -35,8 +35,8 @@ namespace CppTexturePacker
     class Atlas
     {
     private:
-        int width, height;
-        int max_width, max_height;
+        unsigned int width, height;
+        unsigned int max_width, max_height;
 
         int border_padding;
         int shape_padding;
@@ -84,8 +84,8 @@ namespace CppTexturePacker
 
     public:
         Atlas(
-            int _max_width = DEFAULT_ALTALAS_MAX_WIDTH,
-            int _max_height = DEFAULT_ALTALAS_MAX_HEIGHT,
+            unsigned int _max_width = DEFAULT_ALTALAS_MAX_WIDTH,
+            unsigned int _max_height = DEFAULT_ALTALAS_MAX_HEIGHT,
             bool _force_square = false,
             int _border_padding = 0,
             int _shape_padding = 0,
@@ -108,16 +108,24 @@ namespace CppTexturePacker
                 expand_strategy = ExpandStrategy::ExpandBoth;
             }
 
+            assert(2 * border_padding <= max_width && 2 * border_padding <= max_height);
+
+            while (2 * border_padding >= width || 2 * border_padding >= height)
+            {
+                width *= 2;
+                height *= 2;
+            }
+
             free_rects.emplace_back(Rect<int>(
                 {border_padding,
                  border_padding,
-                 width - 2 * border_padding,
-                 height - 2 * border_padding}));
+                 static_cast<int>(width) - 2 * border_padding,
+                 static_cast<int>(height) - 2 * border_padding}));
         }
 
-        const std::vector<ImageRect> &get_placed_image_rect() const 
+        const std::vector<ImageRect> &get_placed_image_rect() const
         {
-            return image_rects; 
+            return image_rects;
         }
 
         int get_width() const
@@ -183,7 +191,7 @@ namespace CppTexturePacker
             int new_right = new_width - border_padding;
             int new_bottom = new_height - border_padding;
 
-            for (Rect<int> & rect : free_rects)
+            for (Rect<int> &rect : free_rects)
             {
                 if (rect.get_right() == old_right)
                 {
@@ -200,8 +208,8 @@ namespace CppTexturePacker
                 free_rects.emplace_back(
                     Rect<int>({old_right,
                                border_padding,
-                               new_width - width,
-                               new_height - 2 * border_padding}));
+                               static_cast<int>(new_width) - static_cast<int>(width),
+                               static_cast<int>(new_height) - 2 * border_padding}));
             }
 
             if (height != new_height)
@@ -209,8 +217,8 @@ namespace CppTexturePacker
                 free_rects.emplace_back(
                     Rect<int>({border_padding,
                                old_bottom,
-                               new_width - 2 * border_padding,
-                               new_height - height}));
+                               static_cast<int>(new_width) - 2 * border_padding,
+                               static_cast<int>(new_height) - static_cast<int>(height)}));
             }
 
             width = new_width;
@@ -262,7 +270,7 @@ namespace CppTexturePacker
             image_rects.emplace_back(image_rect);
         }
 
-        unsigned int rank(Rect<int> free_rect, ImageRect image_rect, RankStrategy rank_stratege=RankStrategy::RankBAF) const
+        unsigned int rank(Rect<int> free_rect, ImageRect image_rect, RankStrategy rank_stratege = RankStrategy::RankBAF) const
         {
             unsigned int r = MAX_RANK;
             switch (rank_stratege)
@@ -293,10 +301,10 @@ namespace CppTexturePacker
             unsigned int best_rank = MAX_RANK;
             unsigned int best_free_rect_index = -1;
 
-            for (int index=0; index<free_rects.size(); ++index)
+            for (int index = 0; index < free_rects.size(); ++index)
             {
                 auto r = rank(free_rects[index], image_rect);
-                if(r<best_rank)
+                if (r < best_rank)
                 {
                     best_rank = r;
                     best_free_rect_index = index;
@@ -315,10 +323,10 @@ namespace CppTexturePacker
             ImageRect image_rect_rotated = image_rect;
             image_rect_rotated.rotate();
 
-            std::tie(best_rank, best_free_rect_index, rotate) = find_best_rank_without_rotate(image_rect); 
-            std::tie(best_rank_r, best_free_rect_index_r, rotate_r) = find_best_rank_without_rotate(image_rect_rotated); 
+            std::tie(best_rank, best_free_rect_index, rotate) = find_best_rank_without_rotate(image_rect);
+            std::tie(best_rank_r, best_free_rect_index_r, rotate_r) = find_best_rank_without_rotate(image_rect_rotated);
 
-            if(best_rank <= best_rank_r)
+            if (best_rank <= best_rank_r)
             {
                 return std::make_tuple(best_rank, best_free_rect_index, false);
             }
@@ -330,7 +338,7 @@ namespace CppTexturePacker
 
         std::tuple<unsigned int, unsigned int, bool> find_best_rank(ImageRect image_rect, bool enable_rotate) const
         {
-            if(enable_rotate)
+            if (enable_rotate)
             {
                 return find_best_rank_with_rotate(image_rect);
             }
@@ -339,7 +347,6 @@ namespace CppTexturePacker
                 return find_best_rank_without_rotate(image_rect);
             }
         }
-
     };
 
 } // namespace CppTexturePacker

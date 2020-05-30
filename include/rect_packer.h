@@ -21,9 +21,9 @@ namespace CppTexturePacker
         bool enable_rotated;
         bool force_square;
 
-        unsigned int border_padding;
-        unsigned int shape_padding;
-        unsigned int inner_padding;
+        int border_padding;
+        int shape_padding;
+        int inner_padding;
 
     public:
         std::vector<Atlas> atlases;
@@ -34,9 +34,9 @@ namespace CppTexturePacker
             unsigned int _max_height=4096,
             bool _enable_rotated=false,
             bool _force_square=false,
-            unsigned int _border_padding=0,
-            unsigned int _shape_padding=0,
-            unsigned int _inner_padding=0
+            int _border_padding=0,
+            int _shape_padding=0,
+            int _inner_padding=0
             ):
             max_width(_max_width),
             max_height(_max_height), 

@@ -19,10 +19,9 @@ namespace CppTexturePacker
     class TexturePacker: public RectPacker
     {
     private:
-        unsigned int bg_color;
-        unsigned char trim_mode;
         bool reduce_border_artifacts;
-        bool extrude;
+        unsigned char trim_mode;
+        unsigned char extrude;
 
     public:
         TexturePacker(
@@ -30,14 +29,13 @@ namespace CppTexturePacker
             unsigned int _max_height = 4096,
             bool _enable_rotated = false,
             bool _force_square = false,
-            unsigned int _border_padding = 0,
-            unsigned int _shape_padding = 0,
-            unsigned int _inner_padding = 0,
+            int _border_padding = 0,
+            int _shape_padding = 0,
+            int _inner_padding = 0,
 
-            unsigned int _bg_color = 0x00000000,
-            unsigned char _trim_mode = 0,
             bool _reduce_border_artifacts = false,
-            bool _extrude = false) :
+            unsigned char _trim_mode = 0,
+            unsigned int _extrude = 0) :
             RectPacker(
                 _max_width,
                 _max_height,
@@ -47,7 +45,6 @@ namespace CppTexturePacker
                _shape_padding,
                _inner_padding
             ),
-            bg_color(_bg_color),
             trim_mode(_trim_mode),
             reduce_border_artifacts(_reduce_border_artifacts),
             extrude(_extrude)

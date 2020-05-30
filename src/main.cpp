@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
   parser.add<bool>("enable_rotate", 'r', "enable rotate", false, false);
   parser.add<bool>("force_square", 's', "force square", false, false);
 
-  parser.add<unsigned int>("border_padding", '\0', "border padding", false, 0, cmdline::range(1, 255));
-  parser.add<unsigned int>("shape_padding", '\0', "shape padding", false, 0, cmdline::range(1, 255));
-  parser.add<unsigned int>("inner_padding", '\0', "inner padding", false, 0, cmdline::range(1, 255));
+  parser.add<unsigned int>("border_padding", '\0', "border padding", false, 0, cmdline::range(0, 255));
+  parser.add<unsigned int>("shape_padding", '\0', "shape padding", false, 0, cmdline::range(0, 255));
+  parser.add<unsigned int>("inner_padding", '\0', "inner padding", false, 0, cmdline::range(0, 255));
   
   parser.add<bool>("reduce_border_artifacts", 'b', "reduce border artifacts", false, false);
   parser.add<unsigned int>("trim_mode", 't', "trim pixel alpha less than input value", false, 0, cmdline::range(0, 255));
@@ -30,10 +30,6 @@ int main(int argc, char *argv[])
   
   parser.parse_check(argc, argv);
 
-
-  std::string path = "/Users/huangquanyong/Projects/CppTexturePacker/data";
-  // std::string save_path = "C:/GITHUB/CppTexturePacker/p2.png";
-  // std::string save_path2 = "C:/GITHUB/CppTexturePacker/p3.png";
   auto packer = CppTexturePacker::TexturePacker(
       parser.get<unsigned int>("max_width"),
       parser.get<unsigned int>("max_height"),
