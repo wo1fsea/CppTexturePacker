@@ -126,7 +126,7 @@ struct Rect
     std::vector<Rect<T>> cut(Rect<T> rect) const
     {
         std::vector<Rect<T>> rects;
-        if (contains(rect))
+        if (is_overlaped(rect))
         {
             Rect<T> tmp_rect;
 
