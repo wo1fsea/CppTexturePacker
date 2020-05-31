@@ -5,6 +5,12 @@ compiler:
     - clang
 os:
     - linux
+
+addons:
+  apt:
+    packages:
+    - python-dev
+
 install: 
     - git clone https://github.com/Microsoft/vcpkg.git
     - cd vcpkg
