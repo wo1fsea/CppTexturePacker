@@ -48,7 +48,12 @@ source_group("include" FILES ${PROJECT_HEADERS})
 source_group("src" FILES ${PROJECT_SOURCES})
 
 add_executable(${PROJECT_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
-target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES} png_static ${PLIST_LIBRARY} Boost::filesystem pthread)
+
+target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} png_static) 
+target_link_libraries(${PROJECT_NAME} ${PLIST_LIBRARY})
+target_link_libraries(${PROJECT_NAME} Boost::filesystem)
+target_link_libraries(${PROJECT_NAME} pthread)
 
 set_target_properties(
     ${PROJECT_NAME} 

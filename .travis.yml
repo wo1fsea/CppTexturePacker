@@ -16,6 +16,7 @@ install:
     - ./vcpkg install libpng 
     - ./vcpkg install libplist
     - ./vcpkg install libjpeg-turbo
+    - ./vcpkg install pybind11
     - cd ../
 
 script:
