@@ -61,6 +61,7 @@ set_target_properties(
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
     )
 
+add_subdirectory(pybind)
 
 # Unit tests
 enable_testing()
