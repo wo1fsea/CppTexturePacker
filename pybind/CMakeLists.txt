@@ -23,3 +23,5 @@ target_link_libraries(${PROJECT_PYBIND} PRIVATE Boost::filesystem)
 target_link_libraries(${PROJECT_PYBIND} PRIVATE pthread)
 target_link_libraries(${PROJECT_PYBIND} PRIVATE pybind11::embed pybind11::module pybind11::pybind11)
 target_link_libraries(${PROJECT_PYBIND} PRIVATE ${Python_LIBRARIES})
+
+target_compile_options(${PROJECT_PYBIND} INTERFACE -fsized-deallocation)
