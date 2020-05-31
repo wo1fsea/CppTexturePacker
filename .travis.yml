@@ -18,12 +18,11 @@ install:
     - ./vcpkg install libplist
     - ./vcpkg install libjpeg-turbo
     - ./vcpkg install pybind11
-    - ./vcpkg install python3
     - cd ../
 
 script:
     - mkdir ./build
     - cd ./build 
-    - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" -DPYTHON_EXECUTABLE=$(python-config --prefix)/bin/python3.6 -DPYTHON_LIBRARY=$(python-config --prefix)/lib/libpython3.6m.so -DPYTHON_INCLUDE_DIR=$(python-config --prefix)/include/python3.6m ../ 
+    - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
     - cmake --build ./
     - ctest
