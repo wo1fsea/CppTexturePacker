@@ -35,7 +35,7 @@ namespace CppTexturePacker
 
             bool _reduce_border_artifacts = false,
             unsigned char _trim_mode = 0,
-            unsigned int _extrude = 0) : RectPacker(_max_width,
+            unsigned char _extrude = 0) : RectPacker(_max_width,
                                                     _max_height,
                                                     _enable_rotated,
                                                     _force_square,
