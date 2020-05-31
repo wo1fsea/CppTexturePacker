@@ -9,14 +9,14 @@
 
 #include <boost/format.hpp>
 
-#include "atlas.h" 
-#include "utils.h" 
-#include "rect_packer.h" 
+#include "atlas.h"
+#include "utils.h"
+#include "rect_packer.h"
 
 namespace CppTexturePacker
 {
 
-    class TexturePacker: public RectPacker
+    class TexturePacker : public RectPacker
     {
     private:
         bool reduce_border_artifacts;
@@ -35,31 +35,28 @@ namespace CppTexturePacker
 
             bool _reduce_border_artifacts = false,
             unsigned char _trim_mode = 0,
-            unsigned int _extrude = 0) :
-            RectPacker(
-                _max_width,
-                _max_height,
-               _enable_rotated,
-                _force_square,
-               _border_padding,
-               _shape_padding,
-               _inner_padding
-            ),
-            trim_mode(_trim_mode),
-            reduce_border_artifacts(_reduce_border_artifacts),
-            extrude(_extrude)
+            unsigned int _extrude = 0) : RectPacker(_max_width,
+                                                    _max_height,
+                                                    _enable_rotated,
+                                                    _force_square,
+                                                    _border_padding,
+                                                    _shape_padding,
+                                                    _inner_padding),
+                                         trim_mode(_trim_mode),
+                                         reduce_border_artifacts(_reduce_border_artifacts),
+                                         extrude(_extrude)
         {
         }
-        
-        void pack(const std::vector<ImageInfo>& image_infos,
-            const std::string & output_name,
-            const std::string & output_path,
-            const std::string & base_image_path="",
-            const std::string & image_format="png")
+
+        void pack(const std::vector<ImageInfo> &image_infos,
+                  const std::string &output_name,
+                  const std::string &output_path,
+                  const std::string &base_image_path = "",
+                  const std::string &image_format = "png")
         {
             if (trim_mode)
             {
-                for (auto image_info: image_infos)
+                for (auto image_info : image_infos)
                 {
                     image_info.trim(trim_mode);
                 }
@@ -67,7 +64,6 @@ namespace CppTexturePacker
 
             if (extrude)
             {
-                
             }
 
             std::vector<CppTexturePacker::ImageRect> image_rects;
@@ -75,15 +71,15 @@ namespace CppTexturePacker
             {
                 image_rects.emplace_back(image_info.get_image_rect());
             }
-            
+
             add_image_rects(image_rects);
             auto image_info_map = make_image_info_map(image_infos);
-            
-            assert((atlases.size() <=1 || output_name.find("%d") != std::string::npos));
+
+            assert((atlases.size() <= 1 || output_name.find("%d") != std::string::npos));
 
             fs::path fp_out = output_path;
 
-            for (int i=0; i < atlases.size(); ++i)
+            for (int i = 0; i < atlases.size(); ++i)
             {
                 auto atlas = atlases[i];
                 std::string atlas_name = output_name;
@@ -104,22 +100,21 @@ namespace CppTexturePacker
             }
         }
 
-        
-        void pack(const std::string& images_dir,
-            const std::string & output_name,
-            const std::string & output_path,
-            const std::string & base_image_path="",
-            const std::string & image_format="png")
+        void pack(const std::string &images_dir,
+                  const std::string &output_name,
+                  const std::string &output_path,
+                  const std::string &base_image_path = "",
+                  const std::string &image_format = "png")
         {
             auto image_infos = load_image_infos_from_dir(images_dir);
             return pack(image_infos, output_name, output_path, base_image_path, image_format);
         }
 
-        void pack(const std::vector<std::string>& image_paths,
-            const std::string & output_name,
-            const std::string & output_path,
-            const std::string & base_image_path="",
-            const std::string & image_format="png")
+        void pack(const std::vector<std::string> &image_paths,
+                  const std::string &output_name,
+                  const std::string &output_path,
+                  const std::string &base_image_path = "",
+                  const std::string &image_format = "png")
         {
             auto image_infos = load_image_infos_from_paths(image_paths);
             return pack(image_infos, output_name, output_path, base_image_path, image_format);
