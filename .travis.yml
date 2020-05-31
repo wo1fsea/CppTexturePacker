@@ -6,8 +6,6 @@ compiler:
 os:
     - linux
 
-python: 3.7
-
 install: 
     - git clone https://github.com/Microsoft/vcpkg.git
     - cd vcpkg
@@ -26,6 +24,6 @@ install:
 script:
     - mkdir ./build
     - cd ./build 
-    - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
+    - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" -DPYTHON_EXECUTABLE=$(python-config --prefix)/bin/python3.6 -DPYTHON_LIBRARY=$(python-config --prefix)/lib/libpython3.6m.so -DPYTHON_INCLUDE_DIR=$(python-config --prefix)/include/python3.6m ../ 
     - cmake --build ./
     - ctest
