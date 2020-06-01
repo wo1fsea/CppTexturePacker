@@ -24,5 +24,5 @@ target_link_libraries(${PROJECT_PYBIND} PRIVATE pybind11::embed pybind11::module
 target_link_libraries(${PROJECT_PYBIND} PRIVATE ${Python_LIBRARIES})
 
 if(NOT WIN32)
-    target_link_libraries(${PROJECT_NAME} pthread)
+    target_link_libraries(${PROJECT_PYBIND} pthread)
 endif()
