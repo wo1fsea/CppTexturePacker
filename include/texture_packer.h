@@ -64,16 +64,29 @@ namespace CppTexturePacker
 
             if (extrude)
             {
+                for (auto image_info : image_infos)
+                {
+                    image_info.extrude(extrude);
+                }
+            }
+
+            std::vector<ImageInfo> image_infos_copy = image_infos;
+            if (inner_padding)
+            {
+                for (ImageInfo &image_info : image_infos_copy)
+                {
+                    image_info.set_inner_padding(inner_padding);
+                }
             }
 
             std::vector<CppTexturePacker::ImageRect> image_rects;
-            for (auto image_info : image_infos)
+            for (auto image_info : image_infos_copy)
             {
                 image_rects.emplace_back(image_info.get_image_rect());
             }
 
             add_image_rects(image_rects);
-            auto image_info_map = make_image_info_map(image_infos);
+            auto image_info_map = make_image_info_map(image_infos_copy);
 
             assert((atlases.size() <= 1 || output_name.find("%d") != std::string::npos));
 

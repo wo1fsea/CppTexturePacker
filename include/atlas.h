@@ -40,7 +40,6 @@ namespace CppTexturePacker
 
         int border_padding;
         int shape_padding;
-        int inner_padding;
 
         bool force_square;
 
@@ -89,7 +88,6 @@ namespace CppTexturePacker
             bool _force_square = false,
             int _border_padding = 0,
             int _shape_padding = 0,
-            int _inner_padding = 0,
             ExpandStrategy _expand_strategy = ExpandStrategy::ExpandeShortSide,
             RankStrategy _rank_strategy = RankStrategy::RankBAF)
             : width(1),
@@ -99,7 +97,6 @@ namespace CppTexturePacker
               force_square(_force_square),
               border_padding(_border_padding),
               shape_padding(_shape_padding),
-              inner_padding(_inner_padding),
               expand_strategy(_expand_strategy),
               rank_strategy(_rank_strategy)
         {
@@ -232,14 +229,14 @@ namespace CppTexturePacker
         void place_image_rect_in_free_rect(int free_rect_idx, ImageRect &image_rect)
         {
             auto free_rect = free_rects[free_rect_idx];
-            image_rect.x = free_rect.x + inner_padding;
-            image_rect.y = free_rect.y + inner_padding;
+            image_rect.x = free_rect.x;
+            image_rect.y = free_rect.y;
 
             ImageRect tmp_rect = image_rect;
-            tmp_rect.enlarge_left_to(image_rect.get_left() - inner_padding);
-            tmp_rect.enlarge_right_to(image_rect.get_right() + inner_padding + shape_padding);
-            tmp_rect.enlarge_top_to(image_rect.get_top() - inner_padding);
-            tmp_rect.enlarge_bottom_to(image_rect.get_bottom() + inner_padding + shape_padding);
+            tmp_rect.enlarge_left_to(image_rect.get_left());
+            tmp_rect.enlarge_right_to(image_rect.get_right() + shape_padding);
+            tmp_rect.enlarge_top_to(image_rect.get_top());
+            tmp_rect.enlarge_bottom_to(image_rect.get_bottom() + shape_padding);
 
             std::vector<Rect<int>> nonoverlapped_free_rects;
             std::vector<Rect<int>> new_free_rects;
@@ -287,8 +284,8 @@ namespace CppTexturePacker
             }
 
             if (r < 0 ||
-                free_rect.width - image_rect.width < 2 * inner_padding + shape_padding ||
-                free_rect.height - image_rect.height < 2 * inner_padding + shape_padding)
+                free_rect.width - image_rect.width < shape_padding ||
+                free_rect.height - image_rect.height < shape_padding)
             {
                 return MAX_RANK;
             }

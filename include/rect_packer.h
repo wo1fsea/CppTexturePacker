@@ -13,7 +13,7 @@ namespace CppTexturePacker
 
     class RectPacker
     {
-    private:
+    protected:
 
         unsigned int max_width;
         unsigned int max_height;
@@ -46,7 +46,7 @@ namespace CppTexturePacker
             shape_padding(_shape_padding),
             inner_padding(_inner_padding)
         {
-            atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding, inner_padding));
+            atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding));
         }
 
         void add_image_rect(ImageRect image_rect)
@@ -98,7 +98,7 @@ namespace CppTexturePacker
 
                 if(best_rank == MAX_RANK)
                 {
-                    atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding, inner_padding));
+                    atlases.emplace_back(Atlas(max_width, max_height, force_square, border_padding, shape_padding));
 
                     best_atlas_index = (unsigned int) atlases.size()-1;
                     std::tie(best_rank, best_free_rect_index, best_rotated) = atlases[best_atlas_index].find_best_rank(image_rect, enable_rotated);

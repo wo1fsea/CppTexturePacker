@@ -346,7 +346,7 @@ namespace CppTexturePacker
 			}
 
 			auto frame_data = plist_new_dict();
-			plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") % image_rect.x % image_rect.y % width % height).str().c_str()));
+			plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") % (image_rect.x + image_info.get_extruded() + image_info.get_inner_padding()) % (image_rect.y + image_info.get_extruded() + image_info.get_inner_padding()) % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "offset", plist_new_string((boost::format("{%d,%d}") % center_offset_x % center_offset_y).str().c_str()));
 			plist_dict_set_item(frame_data, "rotated", plist_new_bool(image_info.is_trimmed()));
 			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
@@ -443,6 +443,13 @@ namespace CppTexturePacker
 			image_info_map.emplace(image_info.get_ex_key(), image_info);
 		}
 		return image_info_map;
+	}
+
+	Image enlarge_image_border(const Image &image, unsigned char pixel_num, bool repeat_border=false)
+	{
+		Image new_image(image.width() + pixel_num * 2, image.height() + pixel_num * 2, 1, 4, 0);
+		draw_image_in_image(new_image, image, pixel_num, pixel_num);
+		return new_image;
 	}
 
 } // namespace CppTexturePacker
