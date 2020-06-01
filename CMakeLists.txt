@@ -17,7 +17,7 @@ if(NOT PLIST_LIBRARY)
 endif()
 unset(plist_names)
 
-if (APPLE)
+if(APPLE)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
 endif()
 
@@ -50,10 +50,13 @@ source_group("src" FILES ${PROJECT_SOURCES})
 add_executable(${PROJECT_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} png_static) 
+target_link_libraries(${PROJECT_NAME} png) 
 target_link_libraries(${PROJECT_NAME} ${PLIST_LIBRARY})
 target_link_libraries(${PROJECT_NAME} Boost::filesystem)
-target_link_libraries(${PROJECT_NAME} pthread)
+
+if(NOT WIN32)
+  target_link_libraries(${PROJECT_NAME} pthread)
+endif()
 
 set_target_properties(
     ${PROJECT_NAME} 
