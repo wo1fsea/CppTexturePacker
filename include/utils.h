@@ -445,10 +445,49 @@ namespace CppTexturePacker
 		return image_info_map;
 	}
 
-	Image enlarge_image_border(const Image &image, unsigned char pixel_num, bool repeat_border=false)
+	Image enlarge_image_border(const Image &image, unsigned char pixel_num, bool repeat_border = false)
 	{
 		Image new_image(image.width() + pixel_num * 2, image.height() + pixel_num * 2, 1, 4, 0);
 		draw_image_in_image(new_image, image, pixel_num, pixel_num);
+
+		if (repeat_border)
+		{
+			int width = new_image.width();
+			int height = new_image.height();
+
+			for (int offset_y = 0; offset_y < height; ++offset_y)
+			{
+				for (int offset_x = 0; offset_x < pixel_num; ++offset_x)
+				{
+					new_image(offset_x, offset_y, 0, 0) = new_image(pixel_num, offset_y, 0, 0);
+					new_image(offset_x, offset_y, 0, 1) = new_image(pixel_num, offset_y, 0, 1);
+					new_image(offset_x, offset_y, 0, 2) = new_image(pixel_num, offset_y, 0, 2);
+					new_image(offset_x, offset_y, 0, 3) = new_image(pixel_num, offset_y, 0, 3);
+
+					new_image(width - pixel_num + offset_x, offset_y, 0, 0) = new_image(width - pixel_num - 1, offset_y, 0, 0);
+					new_image(width - pixel_num + offset_x, offset_y, 0, 1) = new_image(width - pixel_num - 1, offset_y, 0, 1);
+					new_image(width - pixel_num + offset_x, offset_y, 0, 2) = new_image(width - pixel_num - 1, offset_y, 0, 2);
+					new_image(width - pixel_num + offset_x, offset_y, 0, 3) = new_image(width - pixel_num - 1, offset_y, 0, 3);
+				}
+			}
+
+			for (int offset_x = 0; offset_x < width; ++offset_x)
+			{
+				for (int offset_y = 0; offset_y < pixel_num; ++offset_y)
+				{
+					new_image(offset_x, offset_y, 0, 0) = new_image(offset_x, pixel_num, 0, 0);
+					new_image(offset_x, offset_y, 0, 1) = new_image(offset_x, pixel_num, 0, 1);
+					new_image(offset_x, offset_y, 0, 2) = new_image(offset_x, pixel_num, 0, 2);
+					new_image(offset_x, offset_y, 0, 3) = new_image(offset_x, pixel_num, 0, 3);
+
+					new_image(offset_x, height - pixel_num + offset_y, 0, 0) = new_image(offset_x, height - pixel_num - 1, 0, 0);
+					new_image(offset_x, height - pixel_num + offset_y, 0, 1) = new_image(offset_x, height - pixel_num - 1, 0, 1);
+					new_image(offset_x, height - pixel_num + offset_y, 0, 2) = new_image(offset_x, height - pixel_num - 1, 0, 2);
+					new_image(offset_x, height - pixel_num + offset_y, 0, 3) = new_image(offset_x, height - pixel_num - 1, 0, 3);
+				}
+			}
+		}
+
 		return new_image;
 	}
 

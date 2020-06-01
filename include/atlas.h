@@ -229,14 +229,16 @@ namespace CppTexturePacker
         void place_image_rect_in_free_rect(int free_rect_idx, ImageRect &image_rect)
         {
             auto free_rect = free_rects[free_rect_idx];
-            image_rect.x = free_rect.x;
-            image_rect.y = free_rect.y;
+            
+            int sp_x = free_rect.x == border_padding? 0: shape_padding;
+            int sp_y = free_rect.y == border_padding? 0: shape_padding;
+
+            image_rect.x = free_rect.x + sp_x;
+            image_rect.y = free_rect.y + sp_y;
 
             ImageRect tmp_rect = image_rect;
-            tmp_rect.enlarge_left_to(image_rect.get_left());
-            tmp_rect.enlarge_right_to(image_rect.get_right() + shape_padding);
-            tmp_rect.enlarge_top_to(image_rect.get_top());
-            tmp_rect.enlarge_bottom_to(image_rect.get_bottom() + shape_padding);
+            tmp_rect.enlarge_left_to(image_rect.get_left() - sp_x);
+            tmp_rect.enlarge_top_to(image_rect.get_top() - sp_y);
 
             std::vector<Rect<int>> nonoverlapped_free_rects;
             std::vector<Rect<int>> new_free_rects;
@@ -283,9 +285,12 @@ namespace CppTexturePacker
                 break;
             }
 
+            int sp_x = free_rect.x == border_padding? 0: shape_padding;
+            int sp_y = free_rect.y == border_padding? 0: shape_padding;
+
             if (r < 0 ||
-                free_rect.width - image_rect.width < shape_padding ||
-                free_rect.height - image_rect.height < shape_padding)
+                free_rect.width - image_rect.width < sp_x ||
+                free_rect.height - image_rect.height < sp_y)
             {
                 return MAX_RANK;
             }

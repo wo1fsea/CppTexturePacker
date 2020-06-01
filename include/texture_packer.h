@@ -54,9 +54,11 @@ namespace CppTexturePacker
                   const std::string &base_image_path = "",
                   const std::string &image_format = "png")
         {
+            std::vector<ImageInfo> image_infos_copy = image_infos;
+            
             if (trim_mode)
             {
-                for (auto image_info : image_infos)
+                for (ImageInfo &image_info : image_infos_copy)
                 {
                     image_info.trim(trim_mode);
                 }
@@ -64,13 +66,12 @@ namespace CppTexturePacker
 
             if (extrude)
             {
-                for (auto image_info : image_infos)
+                for (ImageInfo &image_info : image_infos_copy)
                 {
                     image_info.extrude(extrude);
                 }
             }
 
-            std::vector<ImageInfo> image_infos_copy = image_infos;
             if (inner_padding)
             {
                 for (ImageInfo &image_info : image_infos_copy)
