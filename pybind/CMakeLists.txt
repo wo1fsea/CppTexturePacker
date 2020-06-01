@@ -14,7 +14,7 @@ source_group("src" FILES ${PROJECT_PYBIND_SOURCES})
 
 include_directories(${Python_INCLUDE_DIRS})
 
-pybind11_add_module(${PROJECT_PYBIND} ${PROJECT_PYBIND_SOURCES})
+pybind11_add_module(${PROJECT_PYBIND} STATIC ${PROJECT_PYBIND_SOURCES})
 
 target_link_libraries(${PROJECT_PYBIND} PRIVATE ${JPEG_LIBRARIES})
 target_link_libraries(${PROJECT_PYBIND} PRIVATE png) 
