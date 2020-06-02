@@ -22,6 +22,7 @@
 
 #include "image_info.h"
 #include "atlas.h"
+#include "utf8_convert.h"
 
 namespace CppTexturePacker
 {
@@ -316,6 +317,8 @@ namespace CppTexturePacker
 		plist_dict_set_item(metadata_dict, "realTextureFileName", plist_new_string(texture_file_name.c_str()));
 		plist_dict_set_item(metadata_dict, "size", plist_new_string((boost::format("{%d,%d}") % atlas.get_width() % atlas.get_height()).str().c_str()));
 
+		// std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> wconvert;
+
 		for (const ImageRect &image_rect : atlas.get_placed_image_rect())
 		{
 			auto image_info = image_info_map[image_rect.ex_key];
@@ -338,11 +341,35 @@ namespace CppTexturePacker
 				center_offset_y = -int(source_bbox.y + source_bbox.height / 2. - source_rect.height / 2.);
 			}
 
+
+
 			fs::path image_path = image_info.get_image_path();
 			if (base_image_path != "")
 			{
-				fs::path base_path = base_image_path;
-				image_path = fs::relative(image_path, base_path);
+				std::string image_path_str = image_info.get_image_path();
+				std::string base_path_str = base_image_path;
+				if (use_backslash)
+				{
+					std::replace(base_path_str.begin(), base_path_str.end(), '/', '\\');
+					std::replace(image_path_str.begin(), image_path_str.end(), '/', '\\');
+				}
+				else
+				{
+					std::replace(base_path_str.begin(), base_path_str.end(), '\\', '/');
+					std::replace(image_path_str.begin(), image_path_str.end(), '\\', '/');
+				}
+
+				image_path_str = fs::absolute(fs::path(image_path_str)).string();
+				base_path_str = fs::absolute(fs::path(base_path_str)).string();
+				
+				if (base_path_str.size() < image_path_str.size() && base_path_str == image_path_str.substr(0, base_path_str.size()))
+				{
+					image_path = fs::path(image_path_str.substr(base_path_str.size()));
+				}
+			}
+			else
+			{
+				image_path = image_path.filename();
 			}
 
 			auto frame_data = plist_new_dict();
@@ -352,17 +379,8 @@ namespace CppTexturePacker
 			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "sourceSize", plist_new_string((boost::format("{%d,%d}") % source_rect.width % source_rect.height).str().c_str()));
 
-			auto image_path_string = image_path.string();
-			if (use_backslash)
-			{
-				std::replace(image_path_string.begin(), image_path_string.end(), '/', '\\');
-			}
-			else
-			{
-				std::replace(image_path_string.begin(), image_path_string.end(), '\\', '/');
-			}
-
-			plist_dict_set_item(frames_dict, image_path_string.c_str(), frame_data);
+			auto image_path_wstring = image_path.wstring();
+			plist_dict_set_item(frames_dict, utf8_encode(image_path_wstring).c_str(), frame_data);
 		}
 
 		plist_to_xml(plist_root, &plist_xml, &size_out);
