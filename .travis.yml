@@ -18,6 +18,7 @@ install:
     - ./vcpkg install libplist
     - ./vcpkg install libjpeg-turbo
     - ./vcpkg install pybind11
+    - ./vcpkg install utfcpp
     - cd ../
 
 script:
