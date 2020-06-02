@@ -286,7 +286,7 @@ namespace CppTexturePacker
 			}
 		}
 
-		return Rect<int>{l, t, r - l, b - t};
+		return Rect<int>{l, t, r - l + 1, b - t + 1};
 	}
 
 	void trim_image(Image &image, const Rect<int> &rect)
@@ -373,10 +373,10 @@ namespace CppTexturePacker
 			}
 
 			auto frame_data = plist_new_dict();
-			plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") % (image_rect.x + image_info.get_extruded() + image_info.get_inner_padding()) % (image_rect.y + image_info.get_extruded() + image_info.get_inner_padding()) % source_bbox.width % source_bbox.height).str().c_str()));
+			plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % (image_rect.x + image_info.get_extruded() + image_info.get_inner_padding()) % (image_rect.y + image_info.get_extruded() + image_info.get_inner_padding()) % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "offset", plist_new_string((boost::format("{%d,%d}") % center_offset_x % center_offset_y).str().c_str()));
 			plist_dict_set_item(frame_data, "rotated", plist_new_bool(image_info.is_trimmed()));
-			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d}{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
+			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "sourceSize", plist_new_string((boost::format("{%d,%d}") % source_rect.width % source_rect.height).str().c_str()));
 
 			auto image_path_wstring = image_path.wstring();
