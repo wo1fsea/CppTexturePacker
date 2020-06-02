@@ -375,7 +375,7 @@ namespace CppTexturePacker
 			auto frame_data = plist_new_dict();
 			plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % (image_rect.x + image_info.get_extruded() + image_info.get_inner_padding()) % (image_rect.y + image_info.get_extruded() + image_info.get_inner_padding()) % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "offset", plist_new_string((boost::format("{%d,%d}") % center_offset_x % center_offset_y).str().c_str()));
-			plist_dict_set_item(frame_data, "rotated", plist_new_bool(image_info.is_trimmed()));
+			plist_dict_set_item(frame_data, "rotated", plist_new_bool(image_rect.is_rotated()));
 			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "sourceSize", plist_new_string((boost::format("{%d,%d}") % source_rect.width % source_rect.height).str().c_str()));
 
@@ -408,18 +408,17 @@ namespace CppTexturePacker
 
 		if (rotated)
 		{
-			// clockwise 270
-			for (int offset_x = 0; offset_x < s_width; ++offset_x)
+			// clockwise 90
+			for (int offset_x = 0; offset_x < s_width && start_y + offset_x < m_height; ++offset_x)
 			{
-				int my = start_y + s_width - offset_x - 1;
-				if (my >= m_height)
+				int my = start_y + offset_x;
+				for (int offset_y = 0; offset_y < s_height; ++offset_y)
 				{
-					continue;
-				}
-
-				for (int offset_y = 0; offset_y < s_height && start_x + offset_y < m_width; ++offset_y)
-				{
-					int mx = start_x + offset_y;
+					int mx = start_x + s_height -1 - offset_y;
+					if(mx >= m_width)
+					{
+						continue;
+					}
 					main_image(mx, my, 0, 0) = sub_image(offset_x, offset_y, 0, 0);
 					main_image(mx, my, 0, 1) = sub_image(offset_x, offset_y, 0, 1);
 					main_image(mx, my, 0, 2) = sub_image(offset_x, offset_y, 0, 2);
