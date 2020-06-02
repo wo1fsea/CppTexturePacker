@@ -92,8 +92,8 @@ struct Rect
     void rotate()
     {
         T tmp = width;
+        width = height;
         height = width;
-        width = tmp;
     }
 
     bool is_overlaped(Rect<T> rect) const
