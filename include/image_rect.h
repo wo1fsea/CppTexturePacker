@@ -13,7 +13,7 @@ private:
     bool rotated;
 
 public:
-    int ex_key;
+    unsigned int ex_key;
 
 public:
     ImageRect() : Rect({0, 0, 0, 0}),

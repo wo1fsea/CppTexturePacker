@@ -29,7 +29,7 @@ namespace CppTexturePacker
 	namespace fs = boost::filesystem;
 
 	using Image = cimg_library::CImg<unsigned char>;
-	using ImageInfoMap = std::unordered_map<int, ImageInfo>;
+	using ImageInfoMap = std::unordered_map<unsigned int, ImageInfo>;
 
 	Image convert_to_rgba_image(const Image &src)
 	{

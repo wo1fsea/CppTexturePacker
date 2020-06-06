@@ -38,8 +38,8 @@ namespace CppTexturePacker
         unsigned int width, height;
         unsigned int max_width, max_height;
 
-        int border_padding;
-        int shape_padding;
+        unsigned char border_padding;
+        unsigned char shape_padding;
 
         bool force_square;
 
@@ -50,7 +50,7 @@ namespace CppTexturePacker
         std::vector<Rect<int>> free_rects;
 
     private:
-        bool is_in_max_size(int new_width, int new_height)
+        bool is_in_max_size(unsigned int new_width, unsigned int new_height)
         {
             return new_width <= max_width && new_height <= max_height;
         }
@@ -86,8 +86,8 @@ namespace CppTexturePacker
             unsigned int _max_width = DEFAULT_ALTALAS_MAX_WIDTH,
             unsigned int _max_height = DEFAULT_ALTALAS_MAX_HEIGHT,
             bool _force_square = false,
-            int _border_padding = 0,
-            int _shape_padding = 0,
+            unsigned char _border_padding = 0,
+            unsigned char _shape_padding = 0,
             ExpandStrategy _expand_strategy = ExpandStrategy::ExpandeShortSide,
             RankStrategy _rank_strategy = RankStrategy::RankBAF)
             : width(1),
@@ -114,7 +114,7 @@ namespace CppTexturePacker
             }
 
             free_rects.emplace_back(Rect<int>(
-                {border_padding,
+                { border_padding,
                  border_padding,
                  static_cast<int>(width) - 2 * border_padding,
                  static_cast<int>(height) - 2 * border_padding}));
@@ -226,7 +226,7 @@ namespace CppTexturePacker
             return true;
         }
 
-        void place_image_rect_in_free_rect(int free_rect_idx, ImageRect &image_rect)
+        void place_image_rect_in_free_rect(unsigned int free_rect_idx, ImageRect &image_rect)
         {
             auto free_rect = free_rects[free_rect_idx];
             

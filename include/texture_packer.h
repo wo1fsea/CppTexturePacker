@@ -29,9 +29,9 @@ namespace CppTexturePacker
             unsigned int _max_height = 4096,
             bool _enable_rotated = false,
             bool _force_square = false,
-            int _border_padding = 0,
-            int _shape_padding = 0,
-            int _inner_padding = 0,
+            unsigned char _border_padding = 0,
+            unsigned char _shape_padding = 0,
+            unsigned char _inner_padding = 0,
 
             bool _reduce_border_artifacts = false,
             unsigned char _trim_mode = 0,

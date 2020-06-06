@@ -7,7 +7,7 @@
 #include "image_rect.h"
 #include "utils.h"
 
-static int _current_ex_key = 0;
+static unsigned int _current_ex_key = 0;
 
 namespace CppTexturePacker
 {
@@ -31,7 +31,7 @@ private:
     unsigned char extruded;
     unsigned char inner_padding;
 
-    int ex_key;
+    unsigned int ex_key;
 
 public:
     ImageInfo() : image_path(""),
