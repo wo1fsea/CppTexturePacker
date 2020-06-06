@@ -2,8 +2,7 @@
 A C++ Texture Packer Toolkit (The C++ version of [PyTexturePacker](https://github.com/wo1fsea/PyTexturePacker))
 
 ## Build
-### Use Vcpkg for Building
-To install [vcpkg](https://github.com/microsoft/vcpkg)
+1. Install [vcpkg](https://github.com/microsoft/vcpkg)
 
 ```
 > git clone https://github.com/Microsoft/vcpkg.git
@@ -13,14 +12,14 @@ PS> .\bootstrap-vcpkg.bat
 Linux:~/$ ./bootstrap-vcpkg.sh
 ```
 
-### Use Vcpkg to Install Dependencies 
+2. Use Vcpkg to Install Dependencies 
 
 ```
 PS> .\vcpkg install boost-test boost-format boost-filesystem cimg libpng libplist libjpeg-turbo pybind11 utfcpp
 Linux:~/$ ./vcpkg install boost-test boost-format boost-filesystem cimg libpng libplist libjpeg-turbo pybind11 utfcpp
 ```
 
-### Use CMake to Build
+3. Use CMake to Build
 
 ```
 > cd CppTexturePacker
