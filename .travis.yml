@@ -6,10 +6,24 @@ jobs:
       compiler: g++
       dist: bionic
       sudo: required
+      script:
+        - mkdir ./build
+        - cd ./build 
+        - pyenv global system 3.7
+        - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
+        - cmake --build ./
+        - ctest
+        
     - os: osx
       compiler: clang
       osx_image: xcode11.5
       sudo: required 
+      script:
+        - mkdir ./build
+        - cd ./build 
+        - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
+        - cmake --build ./
+        - ctest
 
 install: 
     - git clone https://github.com/Microsoft/vcpkg.git
@@ -25,11 +39,3 @@ install:
     - ./vcpkg install pybind11
     - ./vcpkg install utfcpp
     - cd ../
-
-script:
-    - mkdir ./build
-    - cd ./build 
-    - pyenv global system 3.7
-    - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
-    - cmake --build ./
-    - ctest
