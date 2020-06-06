@@ -29,7 +29,6 @@ jobs:
         - ctest
 
     - os: osx
-      compiler: clang
       osx_image: xcode11.5
       sudo: required 
       install: 
