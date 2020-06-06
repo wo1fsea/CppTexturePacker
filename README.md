@@ -16,8 +16,8 @@ Linux:~/$ ./bootstrap-vcpkg.sh
 ### Use Vcpkg to Install Dependencies 
 
 ```
-PS> .\vcpkg install boost-test boost-format boost-filesystem cimg libpng  libplist libjpeg-turbo pybind11 utfcpp
-Linux:~/$ ./vcpkg install boost-test boost-format boost-filesystem cimg libpng  libplist libjpeg-turbo pybind11 utfcpp
+PS> .\vcpkg install boost-test boost-format boost-filesystem cimg libpng libplist libjpeg-turbo pybind11 utfcpp
+Linux:~/$ ./vcpkg install boost-test boost-format boost-filesystem cimg libpng libplist libjpeg-turbo pybind11 utfcpp
 ```
 
 ### Use CMake to Build
