@@ -1,6 +1,5 @@
 language: cpp
 
-
 jobs:
   include:
     - os: linux
@@ -9,9 +8,8 @@ jobs:
       sudo: required
     - os: osx
       compiler: clang
+      osx_image: xcode11.5
       sudo: required 
-
-
 
 install: 
     - git clone https://github.com/Microsoft/vcpkg.git
