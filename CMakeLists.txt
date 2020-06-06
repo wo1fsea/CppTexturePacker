@@ -19,7 +19,10 @@ endif()
 unset(plist_names)
 
 if(APPLE)
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+  set(PNG_LIBRATY png_static)
+else()
+  set(PNG_LIBRATY png)
 endif()
 
 include_directories(include/
@@ -52,7 +55,7 @@ source_group("src" FILES ${PROJECT_SOURCES})
 add_executable(${PROJECT_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${JPEG_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} png) 
+target_link_libraries(${PROJECT_NAME} ${PNG_LIBRATY}) 
 target_link_libraries(${PROJECT_NAME} ${PLIST_LIBRARY})
 target_link_libraries(${PROJECT_NAME} Boost::filesystem)
 

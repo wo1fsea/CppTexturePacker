@@ -25,8 +25,8 @@ add_executable(${PROJECT_UNIT_TESTS_NAME} ${PROJECT_HEADERS} ${PROJECT_TEST_SOUR
 
 target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${JPEG_LIBRARIES})
-target_link_libraries(${PROJECT_UNIT_TESTS_NAME} png) 
 target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${PLIST_LIBRARY})
+target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${PNG_LIBRATY}) 
 target_link_libraries(${PROJECT_UNIT_TESTS_NAME} Boost::filesystem)
 
 if(NOT WIN32)
