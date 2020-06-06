@@ -1,10 +1,17 @@
 language: cpp
-sudo: required
-dist: bionic
-compiler:
-    - g++
-os:
-    - linux
+
+
+jobs:
+  include:
+    - os: linux
+      compiler: g++
+      dist: bionic
+      sudo: required
+    - os: osx
+      compiler: clang
+      sudo: required 
+
+
 
 install: 
     - git clone https://github.com/Microsoft/vcpkg.git
