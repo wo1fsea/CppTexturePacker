@@ -22,7 +22,16 @@ source_group("include" FILES ${PROJECT_HEADERS})
 source_group("src" FILES ${PROJECT_TEST_SOURCES} ${PROJECT_TESTS})
 
 add_executable(${PROJECT_UNIT_TESTS_NAME} ${PROJECT_HEADERS} ${PROJECT_TEST_SOURCES} ${PROJECT_TESTS})
-TARGET_LINK_LIBRARIES(${PROJECT_UNIT_TESTS_NAME} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+
+target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${JPEG_LIBRARIES})
+target_link_libraries(${PROJECT_UNIT_TESTS_NAME} png) 
+target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${PLIST_LIBRARY})
+target_link_libraries(${PROJECT_UNIT_TESTS_NAME} Boost::filesystem)
+
+if(NOT WIN32)
+  target_link_libraries(${PROJECT_NAME} pthread)
+endif()
 
 set_target_properties(
     ${PROJECT_UNIT_TESTS_NAME} 
