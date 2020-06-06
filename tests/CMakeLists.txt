@@ -30,7 +30,7 @@ target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${PLIST_LIBRARY})
 target_link_libraries(${PROJECT_UNIT_TESTS_NAME} Boost::filesystem)
 
 if(NOT WIN32)
-  target_link_libraries(${PROJECT_NAME} pthread)
+  target_link_libraries(${PROJECT_UNIT_TESTS_NAME} pthread)
 endif()
 
 set_target_properties(
