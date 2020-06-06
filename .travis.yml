@@ -49,7 +49,6 @@ jobs:
       script:
         - mkdir ./build
         - cd ./build 
-        - pyenv global system 3.7
         - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
         - cmake --build ./
         - ctest
@@ -72,7 +71,6 @@ jobs:
       script:
         - mkdir ./build
         - cd ./build 
-        - pyenv global system 3.7
         - cmake -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake" ../ 
         - cmake --build ./
         - ctest
