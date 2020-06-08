@@ -110,7 +110,7 @@ namespace CppTexturePacker
 
 		for (auto &fe : fs::directory_iterator(dir_path))
 		{
-			auto file_path = fe.path().string();
+			auto file_path = utf8_encode(fe.path().wstring());
 			auto suffix = file_path.substr(file_path.size() - 4);
 			if (
 				suffix.compare(".bmp") == 0 ||
@@ -341,8 +341,6 @@ namespace CppTexturePacker
 				center_offset_y = -int(source_bbox.y + source_bbox.height / 2. - source_rect.height / 2.);
 			}
 
-
-
 			fs::path image_path = image_info.get_image_path();
 			if (base_image_path != "")
 			{
@@ -379,8 +377,7 @@ namespace CppTexturePacker
 			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "sourceSize", plist_new_string((boost::format("{%d,%d}") % source_rect.width % source_rect.height).str().c_str()));
 
-			auto image_path_wstring = image_path.wstring();
-			plist_dict_set_item(frames_dict, utf8_encode(image_path_wstring).c_str(), frame_data);
+			plist_dict_set_item(frames_dict, image_path.string().c_str(), frame_data);
 		}
 
 		plist_to_xml(plist_root, &plist_xml, &size_out);
@@ -414,8 +411,8 @@ namespace CppTexturePacker
 				int my = start_y + offset_x;
 				for (int offset_y = 0; offset_y < s_height; ++offset_y)
 				{
-					int mx = start_x + s_height -1 - offset_y;
-					if(mx >= m_width)
+					int mx = start_x + s_height - 1 - offset_y;
+					if (mx >= m_width)
 					{
 						continue;
 					}
