@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <cassert>
 #include <algorithm>
+#include <codecvt>
 
 #include <boost/format.hpp>
 #include <boost/filesystem.hpp>
@@ -110,7 +111,7 @@ namespace CppTexturePacker
 
 		for (auto &fe : fs::directory_iterator(dir_path))
 		{
-			auto file_path = utf8_encode(fe.path().wstring());
+			auto file_path = fe.path().string();
 			auto suffix = file_path.substr(file_path.size() - 4);
 			if (
 				suffix.compare(".bmp") == 0 ||
@@ -326,6 +327,9 @@ namespace CppTexturePacker
 			auto source_bbox = image_info.get_source_bbox();
 			auto source_rect = image_info.get_source_rect();
 
+			auto source_bbox_x = source_bbox.x - image_info.get_extruded() - image_info.get_inner_padding();
+			auto source_bbox_y = source_bbox.y - image_info.get_extruded() - image_info.get_inner_padding();
+
 			int width = image_rect.width, height = image_rect.height;
 			if (image_rect.is_rotated())
 			{
@@ -337,8 +341,8 @@ namespace CppTexturePacker
 			if (image_info.is_trimmed())
 			{
 
-				center_offset_x = int(source_bbox.x + source_bbox.width / 2. - source_rect.width / 2.);
-				center_offset_y = -int(source_bbox.y + source_bbox.height / 2. - source_rect.height / 2.);
+				center_offset_x = int(source_bbox_x + source_bbox.width / 2. - source_rect.width / 2.);
+				center_offset_y = -int(source_bbox_y + source_bbox.height / 2. - source_rect.height / 2.);
 			}
 
 			fs::path image_path = image_info.get_image_path();
@@ -374,10 +378,11 @@ namespace CppTexturePacker
 			plist_dict_set_item(frame_data, "frame", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % (image_rect.x + image_info.get_extruded() + image_info.get_inner_padding()) % (image_rect.y + image_info.get_extruded() + image_info.get_inner_padding()) % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "offset", plist_new_string((boost::format("{%d,%d}") % center_offset_x % center_offset_y).str().c_str()));
 			plist_dict_set_item(frame_data, "rotated", plist_new_bool(image_rect.is_rotated()));
-			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % source_bbox.x % source_bbox.y % source_bbox.width % source_bbox.height).str().c_str()));
+			plist_dict_set_item(frame_data, "sourceColorRect", plist_new_string((boost::format("{{%d,%d},{%d,%d}}") % source_bbox_x % source_bbox_y % source_bbox.width % source_bbox.height).str().c_str()));
 			plist_dict_set_item(frame_data, "sourceSize", plist_new_string((boost::format("{%d,%d}") % source_rect.width % source_rect.height).str().c_str()));
 
-			plist_dict_set_item(frames_dict, image_path.string().c_str(), frame_data);
+			auto image_path_wstring = image_path.wstring();
+			plist_dict_set_item(frames_dict, utf8_encode(image_path_wstring).c_str(), frame_data);
 		}
 
 		plist_to_xml(plist_root, &plist_xml, &size_out);

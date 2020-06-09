@@ -93,7 +93,7 @@ struct Rect
     {
         T tmp = width;
         width = height;
-        height = width;
+        height = tmp;
     }
 
     bool is_overlaped(Rect<T> rect) const
